@@ -2,12 +2,12 @@ Getting and building the inputs
 --------------------------------
 
 - [Getting and building the inputs](#getting-and-building-the-inputs)
-- [Building Bitcoin Core](#building-bitcoin-core)
+- [Building Ioncoin Core](#building-ioncoin-core)
 - [Building an alternative repository](#building-an-alternative-repository)
 - [Building fully offline](#building-fully-offline)
 
 At this point you have two options, you can either use the automated script (found in [https://github.com/bitcoin/bitcoin/blob/master/contrib/gitian-build.py](https://github.com/bitcoin/bitcoin/blob/master/contrib/gitian-build.py), only works in Debian/Ubuntu) or you could manually do everything by following this guide.
-If you are using the automated script, then run it with the `--setup` command. Afterwards, run it with the `--build` command (example: `contrib/gitian-build.py -b signer 0.17.0`). Otherwise ignore this.
+If you are using the automated script, then run it with the `--setup` command. Afterwards, run it with the `--build` command (example: `contrib/gitian-build.py -b signer 4.0.00`). Otherwise ignore this.
 
 Follow the instructions in [https://github.com/bitcoin/bitcoin/blob/master/doc/release-process.md](https://github.com/bitcoin/bitcoin/blob/master/doc/release-process.md#fetch-and-create-inputs-first-time-or-when-dependency-versions-change)
 in the bitcoin repository under 'Fetch and create inputs' to install sources which require
@@ -15,11 +15,11 @@ manual intervention. Also optionally follow the next step: 'Seed the Gitian sour
 and offline git repositories' which will fetch the remaining files required for building
 offline.
 
-Building Bitcoin Core
+Building Ioncoin Core
 ----------------
 
-To build Bitcoin Core (for Linux, OS X and Windows) just follow the steps under 'perform
-Gitian builds' in [https://github.com/bitcoin/bitcoin/blob/master/doc/release-process.md](https://github.com/bitcoin/bitcoin/blob/master/doc/release-process.md#setup-and-perform-gitian-builds) in the bitcoin repository.
+To build Ioncoin Core (for Linux, OS X and Windows) just follow the steps under 'perform
+Gitian builds' in [https://github.com/ioncoin/ion/blob/master/doc/release-process.md](https://github.com/ioncoincore/ion/blob/master/doc/release-process.md#setup-and-perform-gitian-builds) in the ioncoincore repository.
 
 This may take some time as it will build all the dependencies needed for each descriptor.
 These dependencies will be cached after a successful build to avoid rebuilding them when possible.
@@ -66,9 +66,9 @@ For example:
 ```bash
 URL=https://github.com/laanwj/bitcoin.git
 COMMIT=2014_03_windows_unicode_path
-./bin/gbuild --commit bitcoin=${COMMIT} --url bitcoin=${URL} ../bitcoin/contrib/gitian-descriptors/gitian-linux.yml
-./bin/gbuild --commit bitcoin=${COMMIT} --url bitcoin=${URL} ../bitcoin/contrib/gitian-descriptors/gitian-win.yml
-./bin/gbuild --commit bitcoin=${COMMIT} --url bitcoin=${URL} ../bitcoin/contrib/gitian-descriptors/gitian-osx.yml
+./bin/gbuild --commit ion=${COMMIT} --url ion=${URL} ../ion/contrib/gitian-descriptors/gitian-linux.yml
+./bin/gbuild --commit ion=${COMMIT} --url ion=${URL} ../ion/contrib/gitian-descriptors/gitian-win.yml
+./bin/gbuild --commit ion=${COMMIT} --url ion=${URL} ../ion/contrib/gitian-descriptors/gitian-osx.yml
 ```
 
 Building fully offline
@@ -114,10 +114,10 @@ Then when building, override the remote URLs that gbuild would otherwise pull fr
 ```bash
 
 cd /some/root/path/
-git clone https://github.com/bitcoin-core/bitcoin-detached-sigs.git
+git clone https://github.com/ioncoincore/ion-detached-sigs.git
 
-BTCPATH=/some/root/path/bitcoin
-SIGPATH=/some/root/path/bitcoin-detached-sigs
+BTCPATH=/some/root/path/ion
+SIGPATH=/some/root/path/ion-detached-sigs
 
-./bin/gbuild --url bitcoin=${BTCPATH},signature=${SIGPATH} ../bitcoin/contrib/gitian-descriptors/gitian-win-signer.yml
+./bin/gbuild --url ion=${BTCPATH},signature=${SIGPATH} ../ion/contrib/gitian-descriptors/gitian-win-signer.yml
 ```

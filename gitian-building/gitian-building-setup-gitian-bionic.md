@@ -54,13 +54,13 @@ Installing Gitian
 Re-login as the user `gitianuser` that was created during installation.
 The rest of the steps in this guide will be performed as that user.
 
-Clone the git repositories for bitcoin and Gitian.
+Clone the git repositories for ioncoin and Gitian.
 
 ```bash
 git clone https://github.com/devrandom/gitian-builder.git
-git clone https://github.com/bitcoin/bitcoin
-git clone https://github.com/bitcoin-core/gitian.sigs.git
-git clone https://github.com/bitcoin-core/bitcoin-detached-sigs.git
+git clone https://github.com/ioncoincore/ion
+git clone https://github.com/ioncoincore/gitian.sigs.git
+git clone https://github.com/ioncoincore/ion-detached-sigs.git
 ```
 
 Setting up the Gitian image

@@ -67,13 +67,13 @@ cd ..
 
 **Note**: When sudo asks for a password, enter the password for the user `gitianuser` not for `root`.
 
-Clone the git repositories for bitcoin and Gitian.
+Clone the git repositories for ioncoin and Gitian.
 
 ```bash
 git clone https://github.com/devrandom/gitian-builder.git
-git clone https://github.com/bitcoin/bitcoin
-git clone https://github.com/bitcoin-core/gitian.sigs.git
-git clone https://github.com/bitcoin-core/bitcoin-detached-sigs.git
+git clone https://github.com/ioncoincore/ion
+git clone https://github.com/ioncoincore/gitian.sigs.git
+git clone https://github.com/ioncoincore/bitcoin-detached-sigs.git
 ```
 
 Setting up the Gitian image
@@ -90,8 +90,8 @@ Execute the following as user `gitianuser`:
 
 ```bash
 cd gitian-builder
-bin/make-base-vm --lxc --arch amd64 --suite bionic # For releases after and including 0.17.0
-bin/make-base-vm --lxc --arch amd64 --suite trusty # For releases before 0.17.0
+bin/make-base-vm --lxc --arch amd64 --suite bionic # for versions 3.0.5 and above
+bin/make-base-vm --lxc --arch amd64 --suite trusty # for versions below 3.0.5
 ```
 
 There will be a lot of warnings printed during the build of the image. These can be ignored.

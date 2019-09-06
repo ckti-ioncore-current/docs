@@ -1,7 +1,7 @@
 Gitian building
 ================
 
-*Setup instructions for a Gitian build of Bitcoin Core using a VM or physical system.*
+*Setup instructions for a Gitian build of Ioncoin Core using a VM or physical system.*
 
 Gitian is the deterministic build process that is used to build the Bitcoin
 Core executables. It provides a way to be reasonably sure that the
@@ -61,7 +61,7 @@ You can check the version with `lxc-execute --version`.
 On Debian you might have to compile a suitable version of lxc or you can use Ubuntu 18.04 or higher instead of Debian as the host.
 
 ## Non-Debian / Ubuntu, Manual and Offline Building
-The instructions below use the automated script [gitian-build.py](https://github.com/bitcoin/bitcoin/blob/master/contrib/gitian-build.py) which only works in Debian/Ubuntu. For manual steps and instructions for fully offline signing, see [this guide](./gitian-building/gitian-building-manual.md).
+The instructions below use the automated script [gitian-build.py](https://github.com/ioncoincore/ion/blob/master/contrib/gitian-build.py) which only works in Debian/Ubuntu. For manual steps and instructions for fully offline signing, see [this guide](./gitian-building/gitian-building-manual.md).
 
 ## MacOS code signing
 In order to sign builds for MacOS, you need to download the free SDK and extract a file. The steps are described [here](./gitian-building/gitian-building-mac-os-sdk.md). Alternatively, you can skip the OSX build by adding `--os=lw` below.
@@ -70,22 +70,22 @@ In order to sign builds for MacOS, you need to download the free SDK and extract
 The `gitian-build.py` script will checkout different release tags, so it's best to copy it:
 
 ```bash
-cp bitcoin/contrib/gitian-build.py .
+cp ion/contrib/gitian-build.py .
 ```
 
 You only need to do this once:
 
 ```
-./gitian-build.py --setup satoshi 0.17.0rc1
+./gitian-build.py --setup <pgp key> <version>
 ```
 
-Where `satoshi` is your Github name and `0.17.0rc1` is the most recent tag (without `v`). 
+Where `pgp key` is your pgp key and `version` is the most recent tag (without `v`). 
 
 In order to sign gitian builds on your host machine, which has your PGP key, fork the gitian.sigs repository and clone it on your host machine:
 
 ```
-git clone git@github.com:bitcoin-core/gitian.sigs.git
-git remote add satoshi git@github.com:satoshi/gitian.sigs.git
+git clone git@github.com:ioncoincore/gitian.sigs.git
+git remote add ion-sigs git@github.com:<github username>/gitian.sigs.git
 ```
 
 ## Build binaries
@@ -93,7 +93,7 @@ Windows and OSX have code signed binaries, but those won't be available until a 
 
 ### To build the most recent tag:
 
- `./gitian-build.py --detach-sign --no-commit -b satoshi 0.17.0rc1`
+ `./gitian-build.py --detach-sign --no-commit -b <pgp key> <version>`
 
 To speed up the build, use `-j 5 -m 5000` as the first arguments, where `5` is the number of CPU's you allocated to the VM plus one, and 5000 is a little bit less than then the MB's of RAM you allocated.
 
@@ -102,29 +102,29 @@ If all went well, this produces a number of (uncommited) `.assert` files in the 
 You need to copy these uncommited changes to your host machine, where you can sign them:
 
 ```
-export NAME=satoshi
-gpg --output $VERSION-linux/$NAME/bitcoin-linux-0.17-build.assert.sig --detach-sign 0.17.0rc1-linux/$NAME/bitcoin-linux-0.17-build.assert 
-gpg --output $VERSION-osx-unsigned/$NAME/bitcoin-osx-0.17-build.assert.sig --detach-sign 0.17.0rc1-osx-unsigned/$NAME/bitcoin-osx-0.17-build.assert 
-gpg --output $VERSION-win-unsigned/$NAME/bitcoin-win-0.17-build.assert.sig --detach-sign 0.17.0rc1-win-unsigned/$NAME/bitcoin-win-0.17-build.assert 
+export NAME=<github user name>
+gpg --output $VERSION-linux/$NAME/ion-linux-<version>-build.assert.sig --detach-sign <version>-linux/$NAME/ion-linux-<version>-build.assert 
+gpg --output $VERSION-osx-unsigned/$NAME/ion-osx-<version>-build.assert.sig --detach-sign <version>-osx-unsigned/$NAME/ion-osx-<version>-build.assert 
+gpg --output $VERSION-win-unsigned/$NAME/ion-win-<version>-build.assert.sig --detach-sign <version>-win-unsigned/$NAME/ion-win-<version>-build.assert 
 ```
 
 ### Make pull request
 Make a PR (both the `.assert` and `.assert.sig` files) to the
-[bitcoin-core/gitian.sigs](https://github.com/bitcoin-core/gitian.sigs/) repository:
+[ioncoincore/gitian.sigs](https://github.com/ioncoincore/gitian.sigs/) repository:
 
 ```
-git checkout -b 0.17.0rc1-not-codesigned
-git commit -S -a -m "Add $NAME 0.17.0rc non-code signed signatures"
-git push --set-upstream $NAME 0.17.0rc1
+git checkout -b <version>-not-codesigned
+git commit -S -a -m "Add $NAME <version> non-code signed signatures"
+git push --set-upstream $NAME <version>1
 ```
 
 ### Email files
-You can also mail the files to Wladimir (laanwj@gmail.com) and he will commit them.
+You can also mail the files to the Devs (ioncoincore@gmail.com) and they will commit them.
 
 ```bash
-    gpg --detach-sign ${VERSION}-linux/${SIGNER}/bitcoin-linux-*-build.assert
-    gpg --detach-sign ${VERSION}-win-unsigned/${SIGNER}/bitcoin-win-*-build.assert
-    gpg --detach-sign ${VERSION}-osx-unsigned/${SIGNER}/bitcoin-osx-*-build.assert
+    gpg --detach-sign ${VERSION}-linux/${SIGNER}/ion-linux-*-build.assert
+    gpg --detach-sign ${VERSION}-win-unsigned/${SIGNER}/ion-win-*-build.assert
+    gpg --detach-sign ${VERSION}-osx-unsigned/${SIGNER}/ion-osx-*-build.assert
 ```
 
 ### Other .assert files
@@ -134,6 +134,6 @@ This will create the `.sig` files that can be committed together with the `.asse
 Gitian build.
 
 
- `./gitian-build.py --detach-sign -s satoshi 0.17.0rc1 --nocommit`
+ `./gitian-build.py --detach-sign -s <pgp key> <version> --nocommit`
 
 Make another pull request for these.

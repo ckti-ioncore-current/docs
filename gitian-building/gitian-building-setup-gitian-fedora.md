@@ -43,13 +43,13 @@ Installing Gitian
 Login as the user `gitianuser` that was created during installation.
 The rest of the steps in this guide will be performed as that user.
 
-Clone the git repositories for bitcoin and Gitian.
+Clone the git repositories for ioncoin and Gitian.
 
 ```bash
 git clone https://github.com/devrandom/gitian-builder.git
-git clone https://github.com/bitcoin/bitcoin
-git clone https://github.com/bitcoin-core/gitian.sigs.git
-git clone https://github.com/bitcoin-core/bitcoin-detached-sigs.git
+git clone https://github.com/ioncoincore/ion
+git clone https://github.com/ioncoincore/gitian.sigs.git
+git clone https://github.com/ioncoincore/bitcoin-detached-sigs.git
 ```
 
 Setting up the Gitian image
@@ -66,8 +66,8 @@ Execute the following as user `gitianuser`:
 
 ```bash
 cd gitian-builder
-bin/make-base-vm --docker --arch amd64 --suite bionic # For releases after and including 0.17.0
-bin/make-base-vm --docker --arch amd64 --suite trusty # For releases before 0.17.0
+bin/make-base-vm --docker --arch amd64 --suite bionic # For releases after and including 3.0.5
+bin/make-base-vm --docker --arch amd64 --suite trusty # For releases before 3.0.5
 ```
 
 **Note**: When sudo asks for a password, enter the password for the user `gitianuser` not for `root`.
